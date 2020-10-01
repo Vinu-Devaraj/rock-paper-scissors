@@ -27,60 +27,58 @@
         }
       };
 
+      let playerScore = 0;
+      let computerScore = 0;
+
       // play a single round of game
 
       let playRound = (playerSelection, computerSelection) => {
         lowCasePlayer = playerSelection.toLowerCase();
         lowCaseComputer = computerSelection.toLowerCase();
 
-        if (lowCasePlayer === computerSelection) {
-          console.log("Draw"); 
-          return 2;
-        } else if (lowCasePlayer === "rock" && lowCaseComputer === "paper") {
-          console.log("You Lose! Paper beats Rock");
-          return false;
+        if (lowCasePlayer === "rock" && lowCaseComputer === "paper") {
+          computerScore++;
+          return "You Lose! Paper beats Rock";
         } else if (lowCasePlayer === "rock" && lowCaseComputer === "scissors") {
-          console.log("You Win! Rock beats Scissors");
-          return true;
+          playerScore++;
+          return "You Win! Rock beats Scissors";
         } else if (lowCasePlayer === "paper" && lowCaseComputer === "rock") {
-          console.log("You Win! Paper beats Rock");
-          return true;
+          playerScore++;
+          return "You Win! Paper beats Rock";
         } else if (lowCasePlayer === "paper" && lowCaseComputer === "scissor") {
-          console.log("You Lose! Scissor beats Paper ");
-          return false;
+          computerScore++;
+          return "You Lose! Scissor beats Paper ";
         } else if (lowCasePlayer === "scissors" && lowCaseComputer === "rock") {
-          console.log("You Lose! Rock beats Scissors");
-          return false;
+          computerScore++;
+          return "You Lose! Rock beats Scissors";
         } else if (lowCasePlayer === "scissors" && lowCaseComputer === "paper") {
-          console.log("You Win! Scissors beat Paper");
-          return true;
+          playerScore++;
+          return "You Win! Scissors beat Paper";
+        } else {
+          return "Draw";
         }
       };
 
       // play 5 games and return the winner
 
       let game = () => {
-        let playerScore = 0;
-        let computerScore = 0;
         let userInput;
         for (let index = 1; index <= 5; index++) {
           userInput = prompt("Enter a move");
           const playerSelection = userInput;
           const computerSelection = computerPlay();
-          let result = playRound(playerSelection, computerSelection);
-          if (result === true) {
-            playerScore++;
-          } else if(result===false) {
-            computerScore++;
-          }
-          else{
-            "Draw"
-          }
+          console.log(playRound(playerSelection, computerSelection));
         }
-      let winner =  playerScore > computerScore ?  "Player Wins" : "Computer Wins";
-      return winner;
       };
-      console.log(game());
+
+      // determines winner of the game
+      let gameWinner = () => {
+        let winner = playerScore > computerScore ? "Player Wins" : "Computer Wins";
+        console.log(winner);
+      };
+
+      game();
+      gameWinner();
     </script>
   </body>
 </html>
