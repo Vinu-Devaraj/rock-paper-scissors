@@ -7,8 +7,11 @@
   </head>
   <body>
     <script>
-      // Random selection by computer
 
+      let playerScore = 0;
+      let computerScore = 0;
+
+      // Random move selection by computer
       let computerPlay = () => {
         let move = Math.ceil(Math.random() * 3);
         switch (move) {
@@ -27,11 +30,13 @@
         }
       };
 
-      let playerScore = 0;
-      let computerScore = 0;
+      // user selection for playerPlay
+      let playerPlay = () => {
+        let userInput = prompt("Enter a move");
+        return userInput;
+      };
 
       // play a single round of game
-
       let playRound = (playerSelection, computerSelection) => {
         lowCasePlayer = playerSelection.toLowerCase();
         lowCaseComputer = computerSelection.toLowerCase();
@@ -59,22 +64,21 @@
         }
       };
 
-      // play 5 games and return the winner
-
+      // play 5 games
       let game = () => {
-        let userInput;
         for (let index = 1; index <= 5; index++) {
-          userInput = prompt("Enter a move");
-          const playerSelection = userInput;
-          const computerSelection = computerPlay();
-          console.log(playRound(playerSelection, computerSelection));
+          console.log(playRound(playerPlay(), computerPlay()));
         }
       };
 
       // determines winner of the game
       let gameWinner = () => {
-        let winner = playerScore > computerScore ? "Player Wins" : "Computer Wins";
-        console.log(winner);
+        if (playerScore === computerScore) {
+          console.log(`It's a Draw Folks`);
+        } else {
+          let winner = playerScore > computerScore ? "Player Wins" : "Computer Wins";
+          console.log(winner);
+        }
       };
 
       game();
