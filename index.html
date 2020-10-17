@@ -4,10 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      button {
+        margin: 10px;
+      }
+      #container {
+        text-align: center;
+        margin-top: 50px;
+      }
+    </style>
   </head>
   <body>
+    <div id="container">
+      <button class="rock">Rock</button>
+      <button class="paper">Paper</button>
+      <button class="scissors">Scissors</button>
+      <p class="gameResult"></p>
+      <p class="finalResult"></p>
+    </div>
     <script>
-
       let playerScore = 0;
       let computerScore = 0;
 
@@ -30,11 +45,8 @@
         }
       };
 
-      // user selection for playerPlay
-      let playerPlay = () => {
-        let userInput = prompt("Enter a move");
-        return userInput;
-      };
+      //  game logic!:playRound(arg 1) player move is the class of button which has same value as moves
+      let game = (e) => (gameResult.textContent = playRound(e.target.classList.value, computerPlay()));
 
       // play a single round of game
       let playRound = (playerSelection, computerSelection) => {
@@ -50,7 +62,7 @@
         } else if (lowCasePlayer === "paper" && lowCaseComputer === "rock") {
           playerScore++;
           return "You Win! Paper beats Rock";
-        } else if (lowCasePlayer === "paper" && lowCaseComputer === "scissor") {
+        } else if (lowCasePlayer === "paper" && lowCaseComputer === "scissors") {
           computerScore++;
           return "You Lose! Scissor beats Paper ";
         } else if (lowCasePlayer === "scissors" && lowCaseComputer === "rock") {
@@ -64,25 +76,42 @@
         }
       };
 
-      // play 5 games
-      let game = () => {
-        for (let index = 1; index <= 5; index++) {
-          console.log(playRound(playerPlay(), computerPlay()));
-        }
-      };
-
       // determines winner of the game
       let gameWinner = () => {
         if (playerScore === computerScore) {
-          console.log(`It's a Draw Folks`);
+          finalResult.textContent = "Its a Draw Folks";
         } else {
           let winner = playerScore > computerScore ? "Player Wins" : "Computer Wins";
-          console.log(winner);
+          finalResult.textContent = winner;
         }
       };
 
-      game();
-      gameWinner();
+      //endOfGame for firing the gamewinner and removing the event listeners after 5 rounds
+      let click = 0;
+      let endOfGame = (e) => {
+        click++;
+        if (click === 5) {
+          setTimeout(gameWinner, 400);
+          rock.removeEventListener("click", game);
+          paper.removeEventListener("click", game);
+          scissors.removeEventListener("click", game);
+        }
+      };
+
+      //js dom and event listeners
+      let rock = document.querySelector(".rock");
+      let paper = document.querySelector(".paper");
+      let scissors = document.querySelector(".scissors");
+      let gameCounters = document.querySelectorAll("button");
+      let gameResult = document.querySelector(".gameResult");
+      let finalResult = document.querySelector(".finalResult");
+
+      rock.addEventListener("click", game);
+      paper.addEventListener("click", game);
+      scissors.addEventListener("click", game);
+
+      // checking each button on the nodelist of buttons,if 5 rounds have been reached
+      gameCounters.forEach((gameCounter) => gameCounter.addEventListener("click", endOfGame));
     </script>
   </body>
 </html>
